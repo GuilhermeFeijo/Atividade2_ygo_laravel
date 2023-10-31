@@ -4,16 +4,7 @@ use App\Http\Controllers\TicketsController;
 use Illuminate\Support\Facades\Route;
 
 
-//Rotas Admin
-/*Route::middleware(['auth'])->group(function(){
-    //Tickets
-    Route::get('/', [TicketsController::class, 'index'])->name('admin.index');
-});*/
-
-//Rotas Responsible
-
-
-//Rotas User
+//Rotas com login
 Route::middleware(['auth'])->group(function(){
     //Tickets
     Route::get('/', [TicketsController::class, 'index'])->name('user.index');
