@@ -1,4 +1,5 @@
-<h1>Todas as Solicitações</h1>
+<a href="{{ route('user.tickets.newTicket') }}">Abrir um novo Ticket</a>
+<h1>Suas Solicitações</h1>
 
 @foreach ($tickets as $ticket)
     <p>Protocolo: {{ $ticket->protocol }}</p>

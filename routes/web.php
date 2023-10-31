@@ -1,13 +1,29 @@
 <?php
 
+use App\Http\Controllers\TicketsController;
 use Illuminate\Support\Facades\Route;
 
 
 //Rotas Admin
-  //Tickets
-Route::get('/', function () {
-    return view('welcome');
+/*Route::middleware(['auth'])->group(function(){
+    //Tickets
+    Route::get('/', [TicketsController::class, 'index'])->name('admin.index');
+});*/
+
+//Rotas Responsible
+
+
+//Rotas User
+Route::middleware(['auth'])->group(function(){
+    //Tickets
+    Route::get('/', [TicketsController::class, 'index'])->name('user.index');
+    Route::get('/tickets/abertura', [TicketsController::class, 'abertura'])->name('user.tickets.newTicket');
+    Route::post('/tickets/abertura', [TicketsController::class, 'store'])->name('user.tickets.store');
 });
+
+
+//Rotas sem login
+
 
 
 
