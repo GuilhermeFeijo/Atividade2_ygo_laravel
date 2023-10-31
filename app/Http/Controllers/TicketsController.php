@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateTicket;
 use App\Models\Tickets;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,15 +19,24 @@ class TicketsController extends Controller
     {
         $user = auth()->user(); //Coleta as informações do usuário logado
 
-        if($user->user_type == 'superadmin' || $user->user_type == 'responsible'){ //Se for admin ou responsável entra na tela de todos os tickets
+        if($user->user_type == 'superadmin'){ //Se for admin entra na tela de todos os tickets
 
             $tickets = Tickets::all(); //Coleta do banco todos os campos do ticket
             return view('admin.tickets.index', compact('tickets')); //compact -> passa um array com tudo que contém no tickets
 
+        }elseif($user->user_type == 'responsible'){
+
+            $tickets = Tickets::all(); //Coleta do banco todos os campos do ticket
+            return view('responsible.tickets.index', compact('tickets')); //compact -> passa um array com tudo que contém no tickets
+
+        }else{
+
+            $tickets = Tickets::where('user_id', $user->id)->get(); //Busca apenas os tickets abertos pelo usuário logado
+            return view('user.tickets.index', compact('tickets')); //compact -> passa um array com tudo que contém no tickets
+
         }
 
-        $tickets = Tickets::where('user_id', $user->id)->get(); //Busca apenas os tickets abertos pelo usuário logado
-        return view('user.tickets.index', compact('tickets')); //compact -> passa um array com tudo que contém no tickets
+
     }
 
     public function abertura()
@@ -34,7 +44,7 @@ class TicketsController extends Controller
         return view('user.tickets.newTicket');
     }
 
-    public function store(Request $request)
+    public function store(StoreUpdateTicket $request)
     {
         $user_id = auth()->user()->id;
 
