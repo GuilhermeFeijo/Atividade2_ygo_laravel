@@ -21,7 +21,7 @@ class CreateTicketsTable extends Migration
             $table->text('description');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('responsible_id')->nullable();
+            $table->unsignedBigInteger('responsable_id')->nullable();
             $table->foreign('responsable_id')->references('id')->on('users');
             $table->timestamp('open_at');
             $table->timestamp('closed_at')->nullable();
