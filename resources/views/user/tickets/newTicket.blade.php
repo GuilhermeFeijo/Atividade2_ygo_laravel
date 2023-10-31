@@ -8,7 +8,7 @@
 </ul>
 @endif
 
-<form action="{{ route('user.tickets.store') }}" method="post">
+<form action="{{ route('tickets.store') }}" method="post">
     @csrf
     <input type="text" name="title" id="title" placeholder="Título" value="{{ old('title') }}">
     <textarea name="description" id="description" cols="30" rows="10" placeholder="Descricao" value="{{ old('description') }}"></textarea>

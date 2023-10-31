@@ -1,8 +1,17 @@
-<a href="{{ route('user.tickets.newTicket') }}">Abrir um novo Ticket</a>
-<h1>Suas Solicitações</h1>
+@if ($user->user_type == 'normal')
+    <a href="{{ route('tickets.newTicket') }}">Abrir um novo Ticket</a>
+@endif
+<h1>Solicitações</h1>
+
+@if (session('message'))
+    <div>
+        {{ session('message') }}
+    </div>
+@endif
 
 @foreach ($tickets as $ticket)
-    <p>Protocolo: {{ $ticket->protocol }}</p>
+    <p><a href="{{ route('tickets.detail', [$ticket->id]) }}">Protocolo: {{ $ticket->protocol }}</a></p>
     <p>Título: {{ $ticket->title }}</p>
     <p>Descrição: {{ $ticket->description }}</p>
+    <br>
 @endforeach
