@@ -182,4 +182,31 @@ class RegisteredUserController extends Controller
 
         return redirect()->route('user.index');
     }
+
+    public function destroy($id)
+    {
+        $user = auth()->user();
+
+        if($user->id == $id){
+            return redirect()
+            ->route('user.index')
+            ->with('message', 'Você não pode excluir o próprio usuário (ㆆ_ㆆ)');
+        }
+
+        if (!$users = User::find($id)){
+            return redirect()
+            ->route('user.index')
+            ->with('message', 'Usuário não localizado');
+        }
+
+        if($user->user_type != 'superadmin'){
+            return redirect()
+            ->route('index')
+            ->with('message', 'Acesso não permitido');
+        }
+
+        $users->delete();
+
+        return redirect()->route('user.index');
+    }
 }

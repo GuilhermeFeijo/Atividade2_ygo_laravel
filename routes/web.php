@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\DomainsController;
 use App\Http\Controllers\TicketsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,8 +24,15 @@ Route::middleware(['auth'])->group(function(){
     Route::put('/users/desativar/{id}', [RegisteredUserController::class, 'desativar'])->name('user.deactivate');
     Route::put('/users/ativar/{id}', [RegisteredUserController::class, 'ativar'])->name('user.activate');
     Route::put('/users/permissao/{id}', [RegisteredUserController::class, 'permissao'])->name('user.permission');
+    Route::delete('/users/delete/{id}', [RegisteredUserController::class, 'destroy'])->name('user.delete');
 
     //Domains
+    Route::get('/domains', [DomainsController::class, 'index'])->name('domains.index');
+    Route::get('/domains/cadastro', [DomainsController::class, 'cadastro'])->name('domains.newDomain');
+    Route::post('/domains/cadastro', [DomainsController::class, 'store'])->name('domains.store');
+    Route::put('/domains/desativar/{id}', [DomainsController::class, 'desativar'])->name('domain.deactivate');
+    Route::put('/domains/ativar/{id}', [DomainsController::class, 'ativar'])->name('domain.activate');
+    Route::delete('/domains/delete/{id}', [DomainsController::class, 'destroy'])->name('domain.delete');
 });
 
 

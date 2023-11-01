@@ -49,6 +49,11 @@
             </select>
             <button type="submit">Alterar</button>
         </form>
+        <form action="{{ route('user.delete', [$user->id]) }}" method="post">
+            @csrf
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit">Excluir usuário</button>
+        </form>
 
         <br>
     @endforeach
