@@ -6,16 +6,6 @@
     <li>Título: {{ $tickets->title }}</li>
     <li>Descrição: {{ $tickets->description }}</li>
     <li>Data de abertura: {{ date( 'd/m/Y' , strtotime($tickets->open_at)) }}</li>
-    @if ($tickets->closed_at == null)
-
-        <li>Status: Aberto</li>
-
-    @else
-
-        <li>Status: Encerrado</li>
-        <li>Motivo do Encerramento: {{ $tickets->closure_reason }}</li>
-
-    @endif
     @if ($responsavel)
 
         <li>Responsável: {{ $responsavel->name }}</li>
@@ -46,12 +36,23 @@
 
     @endif
 
-    <form action="{{ route('tickets.finish', [$tickets->id]) }}" method="post">
-        @csrf
-        @method('PUT')
-        <textarea name="motivo" id="motivo" cols="30" rows="10" placeholder="Motivo do Encerramento"></textarea>
-        <button type="submit">Encerrar</button>
-    </form>
+    @if ($tickets->closed_at == null)
+
+        <li>Status: Aberto</li>
+
+        <form action="{{ route('tickets.finish', [$tickets->id]) }}" method="post">
+            @csrf
+            @method('PUT')
+            <textarea name="closure_reason" id="closure_reason" cols="30" rows="10" placeholder="Motivo do Encerramento"></textarea>
+            <button type="submit">Encerrar</button>
+        </form>
+    @else
+
+        <li>Status: Encerrado</li>
+        <li>Motivo do Encerramento: {{ $tickets->closure_reason }}</li>
+
+    @endif
+
 
 
 </ul>

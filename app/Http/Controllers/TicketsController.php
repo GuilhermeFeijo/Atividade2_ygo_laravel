@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CloseTicket;
 use App\Http\Requests\StoreUpdateTicket;
 use App\Models\Tickets;
 use App\Models\User;
@@ -10,11 +11,6 @@ use Illuminate\Http\Request;
 
 class TicketsController extends Controller
 {
-
-    public function adminIndex()
-    {
-
-    }
 
     public function index()
     {
@@ -103,6 +99,36 @@ class TicketsController extends Controller
 
         Tickets::where('id', $id)
         ->update(['responsable_id' => $user->id]);
+
+        $tickets = Tickets::find($id);
+
+        if($tickets->responsable_id){
+            $responsavel = User::find($tickets->responsable_id);
+        }
+        else{
+            $responsavel = null;
+        }
+
+        return view('user.tickets.detail', compact('tickets', 'responsavel', 'user'));
+    }
+
+    public function encerrar(CloseTicket $request, $id)
+    {
+        $user = auth()->user();
+
+        if (!$tickets = Tickets::find($id)){
+            return redirect()
+            ->route('index')
+            ->with('message', 'Ticket não localizado');
+        };
+
+        $horaAtual = Carbon::now();
+
+        Tickets::where('id', $id)
+        ->update([
+            'closed_at' => $horaAtual,
+            'closure_reason' => $request->closure_reason,
+        ]);
 
         $tickets = Tickets::find($id);
 
