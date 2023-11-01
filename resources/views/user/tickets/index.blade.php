@@ -12,6 +12,11 @@
 @foreach ($tickets as $ticket)
     <p><a href="{{ route('tickets.detail', [$ticket->id]) }}">Protocolo: {{ $ticket->protocol }}</a></p>
     <p>Título: {{ $ticket->title }}</p>
-    <p>Descrição: {{ $ticket->description }}</p>
+    <p>Tipo: {{ $ticket->type }}</p>
+    @if ($ticket->closed_at == null)
+        <p>Status: Aberto</p>
+    @else
+        <p>Status: Encerrado</p>
+    @endif
     <br>
 @endforeach

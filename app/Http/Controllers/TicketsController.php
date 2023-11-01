@@ -101,6 +101,17 @@ class TicketsController extends Controller
             ->with('message', 'Acesso não permitido');
         }
 
+        Tickets::where('id', $id)
+        ->update(['responsable_id' => $user->id]);
+
+        $tickets = Tickets::find($id);
+
+        if($tickets->responsable_id){
+            $responsavel = User::find($tickets->responsable_id);
+        }
+        else{
+            $responsavel = null;
+        }
 
         return view('user.tickets.detail', compact('tickets', 'responsavel', 'user'));
     }

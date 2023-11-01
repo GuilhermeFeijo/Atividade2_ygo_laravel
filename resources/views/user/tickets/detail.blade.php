@@ -20,17 +20,11 @@
 
         <li>Responsável: {{ $responsavel->name }}</li>
 
-        @if ($responsavel->id == $user->id)
-
-            <form action="{{ route('tickets.finish', [$tickets->id]) }}" method="post">
-                <textarea name="motivo" id="motivo" cols="30" rows="10" placeholder="Motivo do Encerramento"></textarea>
-                <button type="submit">Encerrar</button>
-            </form>
-
-        @elseif($user->user_type == 'superadmin' || $user->user_type == 'responsable')
+        @if ($responsavel->id != $user->id)
 
             <form action="{{ route('tickets.appropriate', [$tickets->id]) }}" method="post">
                 @csrf
+                @method('PUT')
                 <button type="submit">Apropriar</button>
             </form>
 
@@ -44,12 +38,20 @@
 
             <form action="{{ route('tickets.appropriate', [$tickets->id]) }}" method="post">
                 @csrf
+                @method('PUT')
                 <button type="submit">Apropriar</button>
             </form>
 
         @endif
 
     @endif
+
+    <form action="{{ route('tickets.finish', [$tickets->id]) }}" method="post">
+        @csrf
+        @method('PUT')
+        <textarea name="motivo" id="motivo" cols="30" rows="10" placeholder="Motivo do Encerramento"></textarea>
+        <button type="submit">Encerrar</button>
+    </form>
 
 
 </ul>

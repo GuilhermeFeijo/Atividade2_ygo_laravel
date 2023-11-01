@@ -11,8 +11,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/tickets/abertura', [TicketsController::class, 'abertura'])->name('tickets.newTicket');
     Route::post('/tickets/abertura', [TicketsController::class, 'store'])->name('tickets.store');
     Route::get('/tickets/{id}', [TicketsController::class, 'detalhe'])->name('tickets.detail');
-    Route::post('/tickets/{id}', [TicketsController::class, 'apropriar'])->name('tickets.appropriate');
-    Route::post('/tickets/finish/{id}', [TicketsController::class, 'encerrar'])->name('tickets.finish');
+    Route::put('/tickets/{id}', [TicketsController::class, 'apropriar'])->name('tickets.appropriate');
+    Route::put('/tickets/finish/{id}', [TicketsController::class, 'encerrar'])->name('tickets.finish');
 });
 
 
