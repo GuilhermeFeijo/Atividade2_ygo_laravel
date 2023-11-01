@@ -18,16 +18,17 @@ class TicketsController extends Controller
 
         if($user->user_type == 'superadmin' || $user->user_type == 'responsable'){ //Se for admin entra na tela de todos os tickets
 
-            $tickets = Tickets::all(); //Coleta do banco todos os campos do ticket
+            $tickets = Tickets::orderBy('id', 'DESC')->paginate(); //Coleta do banco todos os campos do ticket
 
         }else{
 
-            $tickets = Tickets::where('user_id', $user->id)->get(); //Busca apenas os tickets abertos pelo usuário logado
+            $tickets = Tickets::where('user_id', $user->id)->orderBy('id', 'DESC')->get(); //Busca apenas os tickets abertos pelo usuário logado
 
         }
 
         return view('user.tickets.index', compact('tickets', 'user')); //compact -> passa um array com tudo que contém no tickets
     }
+
 
     public function abertura()
     {
@@ -53,6 +54,7 @@ class TicketsController extends Controller
 
         return redirect()->route('index');
     }
+
 
     public function detalhe($id)
     {
@@ -80,6 +82,7 @@ class TicketsController extends Controller
 
         return view('user.tickets.detail', compact('tickets', 'responsavel', 'user'));
     }
+
 
     public function apropriar($id)
     {
@@ -111,6 +114,7 @@ class TicketsController extends Controller
 
         return view('user.tickets.detail', compact('tickets', 'responsavel', 'user'));
     }
+
 
     public function encerrar(CloseTicket $request, $id)
     {

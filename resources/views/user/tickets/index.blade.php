@@ -20,3 +20,7 @@
     @endif
     <br>
 @endforeach
+
+<hr>
+
+{{ $tickets->links() }}
