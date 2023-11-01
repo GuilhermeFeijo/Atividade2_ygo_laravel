@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Domains;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -42,6 +43,21 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+
+        $dominios = Domains::all();
+        $emailValido=false;
+        $email = explode('@', $request->email);
+        foreach($dominios as $dominio){
+            if('@'.$email[1] == $dominio->domain && $dominio->status == 1){
+                $emailValido = true;
+            }
+        }
+
+        if($emailValido == false){
+            return redirect()
+            ->back()
+            ->with('message', 'Domínio de E-mail inválido');
+        }
 
         $user = User::create([
             'name' => $request->name,
@@ -92,6 +108,23 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+
+
+        $dominios = Domains::all();
+        $emailValido=false;
+        $email = explode('@', $request->email);
+        foreach($dominios as $dominio){
+            if('@'.$email[1] == $dominio->domain && $dominio->status == 1){
+                $emailValido = true;
+            }
+        }
+
+        if($emailValido == false){
+            return redirect()
+            ->back()
+            ->with('message', 'Domínio de E-mail inválido');
+        }
+
 
         $user = User::create([
             'name' => $request->name,
