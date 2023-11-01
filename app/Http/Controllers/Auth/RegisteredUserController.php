@@ -13,6 +13,10 @@ use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
+    ////////////////////////////////////////
+    ///////// FUNÇÕES NATIVAS //////////////
+    ////////////////////////////////////////
+
     /**
      * Display the registration view.
      *
@@ -51,5 +55,53 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    ////////////////////////////////////////
+    ///////// FUNÇÕES CRIADAS //////////////
+    ////////////////////////////////////////
+
+    public function index()
+    {
+        $user = auth()->user(); //Coleta as informações do usuário logado
+
+        if($user->user_type == 'superadmin'){
+
+            $users = User::paginate(5);
+
+        }else{
+
+            return redirect()
+            ->route('index')
+            ->with('message', 'Você não tem permissão para visualizar este ticket');
+
+        }
+
+        return view('admin.users.index', compact('users')); //compact -> passa um array com tudo que contém no tickets
+    }
+
+    public function cadastro()
+    {
+        return view('admin.users.userCreate');
+    }
+
+    public function adminStore(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'status' => '1',
+        ]);
+
+        event(new Registered($user));
+
+        return redirect()->route('user.index');
     }
 }

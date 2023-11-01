@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\TicketsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,13 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/tickets/{id}', [TicketsController::class, 'detalhe'])->name('tickets.detail');
     Route::put('/tickets/{id}', [TicketsController::class, 'apropriar'])->name('tickets.appropriate');
     Route::put('/tickets/finish/{id}', [TicketsController::class, 'encerrar'])->name('tickets.finish');
+
+    //Users
+    Route::get('/users', [RegisteredUserController::class, 'index'])->name('user.index');
+    Route::get('/users/cadastro', [RegisteredUserController::class, 'cadastro'])->name('user.register');
+    Route::post('/users/cadastro', [RegisteredUserController::class, 'adminStore'])->name('user.store');
+
+    //Domains
 });
 
 
