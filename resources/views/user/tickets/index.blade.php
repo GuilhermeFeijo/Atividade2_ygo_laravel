@@ -1,15 +1,20 @@
-@if ($user->user_type == 'normal')
-    <a href="{{ route('tickets.newTicket') }}">Abrir um novo Ticket</a>
-@endif
-<h1>Solicitações</h1>
+@extends('layouts.app')
 
-@if (session('message'))
+@section('title', 'Tela inicial')
+
+@section('content')
+    @if ($user->user_type == 'normal')
+    <a href="{{ route('tickets.newTicket') }}">Abrir um novo Ticket</a>
+    @endif
+    <h1>Solicitações</h1>
+
+    @if (session('message'))
     <div>
         {{ session('message') }}
     </div>
-@endif
+    @endif
 
-@foreach ($tickets as $ticket)
+    @foreach ($tickets as $ticket)
     <p><a href="{{ route('tickets.detail', [$ticket->id]) }}">Protocolo: {{ $ticket->protocol }}</a></p>
     <p>Título: {{ $ticket->title }}</p>
     <p>Tipo: {{ $ticket->type }}</p>
@@ -19,8 +24,10 @@
         <p>Status: Encerrado</p>
     @endif
     <br>
-@endforeach
+    @endforeach
 
-<hr>
+    <hr>
 
-{{ $tickets->links() }}
+    {{ $tickets->links() }}
+
+@endsection
