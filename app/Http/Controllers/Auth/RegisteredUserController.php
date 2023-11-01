@@ -67,7 +67,7 @@ class RegisteredUserController extends Controller
 
         if($user->user_type == 'superadmin'){
 
-            $users = User::paginate(5);
+            $users = User::paginate(3);
 
         }else{
 
@@ -101,6 +101,84 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        return redirect()->route('user.index');
+    }
+
+    public function desativar($id)
+    {
+        $user = auth()->user();
+
+        if($user->id == $id){
+            return redirect()
+            ->route('user.index')
+            ->with('message', 'Você não pode desativar o próprio usuário ¯\_(ツ)_/¯');
+        }
+
+        if (!User::find($id)){
+            return redirect()
+            ->route('user.index')
+            ->with('message', 'Usuário não localizado');
+        }
+
+        if($user->user_type != 'superadmin'){
+            return redirect()
+            ->route('index')
+            ->with('message', 'Acesso não permitido');
+        }
+
+        User::where('id', $id)
+        ->update(['status' => 0]);
+
+        return redirect()->route('user.index');
+    }
+
+    public function ativar($id)
+    {
+        $user = auth()->user();
+
+        if (!User::find($id)){
+            return redirect()
+            ->route('user.index')
+            ->with('message', 'Usuário não localizado');
+        }
+
+        if($user->user_type != 'superadmin'){
+            return redirect()
+            ->route('index')
+            ->with('message', 'Acesso não permitido');
+        }
+
+        User::where('id', $id)
+        ->update(['status' => 1]);
+
+        return redirect()->route('user.index');
+    }
+
+    public function permissao(Request $request, $id)
+    {
+        $user = auth()->user();
+
+        if($user->id == $id){
+            return redirect()
+            ->route('user.index')
+            ->with('message', 'Você não pode mudar a permissão do próprio usuário (ㆆ_ㆆ)');
+        }
+
+        if (!User::find($id)){
+            return redirect()
+            ->route('user.index')
+            ->with('message', 'Usuário não localizado');
+        }
+
+        if($user->user_type != 'superadmin'){
+            return redirect()
+            ->route('index')
+            ->with('message', 'Acesso não permitido');
+        }
+
+        User::where('id', $id)
+        ->update(['user_type' => $request->user_type]);
 
         return redirect()->route('user.index');
     }

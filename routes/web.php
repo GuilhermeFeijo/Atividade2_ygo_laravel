@@ -20,6 +20,9 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/users', [RegisteredUserController::class, 'index'])->name('user.index');
     Route::get('/users/cadastro', [RegisteredUserController::class, 'cadastro'])->name('user.register');
     Route::post('/users/cadastro', [RegisteredUserController::class, 'adminStore'])->name('user.store');
+    Route::put('/users/desativar/{id}', [RegisteredUserController::class, 'desativar'])->name('user.deactivate');
+    Route::put('/users/ativar/{id}', [RegisteredUserController::class, 'ativar'])->name('user.activate');
+    Route::put('/users/permissao/{id}', [RegisteredUserController::class, 'permissao'])->name('user.permission');
 
     //Domains
 });
