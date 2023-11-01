@@ -83,7 +83,7 @@ class RegisteredUserController extends Controller
 
         if($user->user_type == 'superadmin'){
 
-            $users = User::paginate(3);
+            $users = User::all();
 
         }else{
 

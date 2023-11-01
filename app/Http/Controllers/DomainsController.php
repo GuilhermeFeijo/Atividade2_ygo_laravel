@@ -15,7 +15,7 @@ class DomainsController extends Controller
 
         if($user->user_type == 'superadmin' || $user->user_type == 'responsable'){ //Se for admin entra na tela de todos os domains
 
-            $domains = Domains::orderBy('id', 'DESC')->paginate(); //Coleta do banco todos os campos do ticket
+            $domains = Domains::orderBy('id', 'DESC')->get(); //Coleta do banco todos os campos do ticket
 
         }else{
 

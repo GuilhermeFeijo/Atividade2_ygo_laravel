@@ -60,8 +60,6 @@
 
     <hr>
 
-    {{ $users->links() }}
-
 
     @include('_partials.adminFooter')
 

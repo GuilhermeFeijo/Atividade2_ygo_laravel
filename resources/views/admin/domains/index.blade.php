@@ -49,8 +49,6 @@
 
     <hr>
 
-    {{ $domains->links() }}
-
 
     @if ($user->user_type == 'superadmin')
         @include('_partials.adminFooter')
