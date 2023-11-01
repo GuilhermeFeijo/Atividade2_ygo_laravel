@@ -22,5 +22,6 @@
         <button type="submit">Abrir ticket</button>
     </form>
 
+    @include('_partials.userFooter')
 
 @endsection

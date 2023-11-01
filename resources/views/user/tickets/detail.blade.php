@@ -12,6 +12,7 @@
         <li>Título: {{ $tickets->title }}</li>
         <li>Descrição: {{ $tickets->description }}</li>
         <li>Data de abertura: {{ date( 'd/m/Y' , strtotime($tickets->open_at)) }}</li>
+
         @if ($responsavel)
 
             <li>Responsável: {{ $responsavel->name }}</li>
@@ -42,6 +43,7 @@
 
         @endif
 
+
         @if ($tickets->closed_at == null)
 
             <li>Status: Aberto</li>
@@ -58,11 +60,14 @@
             <li>Motivo do Encerramento: {{ $tickets->closure_reason }}</li>
 
         @endif
-
-
-
     </ul>
 
+
+    @if ($user->user_type == 'superadmin')
+        @include('_partials.adminFooter')
+    @else
+        @include('_partials.userFooter')
+    @endif
 
 
 

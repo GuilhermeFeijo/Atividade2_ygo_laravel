@@ -4,7 +4,7 @@
 
 @section('content')
     @if ($user->user_type == 'normal')
-    <a href="{{ route('tickets.newTicket') }}">Abrir um novo Ticket</a>
+        <a href="{{ route('tickets.newTicket') }}">Abrir um novo Ticket</a>
     @endif
     <h1>Solicitações</h1>
 
@@ -29,5 +29,11 @@
     <hr>
 
     {{ $tickets->links() }}
+
+    @if ($user->user_type == 'superadmin')
+        @include('_partials.adminFooter')
+    @else
+        @include('_partials.userFooter')
+    @endif
 
 @endsection

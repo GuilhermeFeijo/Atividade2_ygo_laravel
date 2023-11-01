@@ -1,5 +1,5 @@
 <nav>
     <ul>
-        <li><a href="{{ route('index') }}">Meus tickets</a></li>
+        <li><a href="{{ route('index') }}">Tickets</a></li>
     </ul>
 </nav>
